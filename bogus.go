@@ -6,8 +6,8 @@ import (
 	"context"
 	"encoding/base64"
 	"fmt"
+	"github.com/sirupsen/logrus"
 	"io/ioutil"
-	"log"
 	"net/http"
 	"text/template"
 )
@@ -69,19 +69,18 @@ func (a *Demo) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 	if req.Body == nil {
 		return
 	}
-	log.Printf("req.Body: %v", req.Body)
-	// 讀取 request body 為字串
-
+	// 讀取 request body
 	bodyBytes, err := ioutil.ReadAll(req.Body)
 	if err != nil {
 		http.Error(rw, err.Error(), http.StatusInternalServerError)
 		return
 	}
+	bodyString := string(bodyBytes)
 
-	// 將 request body 轉換為 base64 字串
-	log.Printf("bodyBytes: %v", string(bodyBytes))
-	encodedBody := base64.StdEncoding.EncodeToString(bodyBytes)
-	log.Printf("encodedBody: %v", encodedBody)
+	logrus.Infof("bodyBytes: %v", bodyString)
+	// 將 bodyString 轉換為 base64 字串
+	encodedBody := base64.StdEncoding.EncodeToString([]byte(bodyString))
+	logrus.Infof("encodedBody: %v", encodedBody)
 	req.Header.Set("Encoded-Body", encodedBody)
 	a.next.ServeHTTP(rw, req)
 }
