@@ -52,7 +52,9 @@ func (a *Demo) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 		}
 
 		writer := &bytes.Buffer{}
-		fmt.Println(writer.String())
+
+		fmt.Println(req.Body)
+
 		err = tmpl.Execute(writer, req)
 		if err != nil {
 			http.Error(rw, err.Error(), http.StatusInternalServerError)
