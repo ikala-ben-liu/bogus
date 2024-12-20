@@ -76,6 +76,7 @@ func (a *Demo) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 		return
 	}
 	// 將 request body 轉換為 base64 字串
+	log.Printf("bodyBytes: %v", bodyBytes)
 	encodedBody := base64.StdEncoding.EncodeToString(bodyBytes)
 	log.Printf("encodedBody: %v", encodedBody)
 	req.Header.Set("Encoded-Body", encodedBody)
