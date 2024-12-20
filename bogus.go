@@ -4,7 +4,9 @@ package bogus
 import (
 	"bytes"
 	"context"
+	"encoding/base64"
 	"fmt"
+	"io/ioutil"
 	"net/http"
 	"text/template"
 )
@@ -44,6 +46,7 @@ func New(ctx context.Context, next http.Handler, config *Config, name string) (h
 }
 
 func (a *Demo) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
+
 	for key, value := range a.headers {
 		tmpl, err := a.template.Parse(value)
 		if err != nil {
@@ -53,8 +56,6 @@ func (a *Demo) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 
 		writer := &bytes.Buffer{}
 
-		fmt.Println(req.Body)
-
 		err = tmpl.Execute(writer, req)
 		if err != nil {
 			http.Error(rw, err.Error(), http.StatusInternalServerError)
@@ -63,6 +64,17 @@ func (a *Demo) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 
 		req.Header.Set(key, writer.String())
 	}
+	if req.Body == nil {
+		http.Error(rw, "Request body is nil", http.StatusBadRequest)
+		return
+	}
+	bodyBytes, err := ioutil.ReadAll(req.Body)
+	if err != nil {
+		http.Error(rw, err.Error(), http.StatusInternalServerError)
+		return
+	}
 
+	encodedBody := base64.StdEncoding.EncodeToString(bodyBytes)
+	req.Header.Set("Encoded-Body", encodedBody)
 	a.next.ServeHTTP(rw, req)
 }
