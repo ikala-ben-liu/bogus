@@ -7,6 +7,7 @@ import (
 	"encoding/base64"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"text/template"
 )
@@ -64,17 +65,19 @@ func (a *Demo) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 
 		req.Header.Set(key, writer.String())
 	}
+	// 如果 request body 為空，則不處理
 	if req.Body == nil {
-		http.Error(rw, "Request body is nil", http.StatusBadRequest)
 		return
 	}
+	// 讀取 request body
 	bodyBytes, err := ioutil.ReadAll(req.Body)
 	if err != nil {
 		http.Error(rw, err.Error(), http.StatusInternalServerError)
 		return
 	}
-
+	// 將 request body 轉換為 base64 字串
 	encodedBody := base64.StdEncoding.EncodeToString(bodyBytes)
+	log.Printf("encodedBody: %v", encodedBody)
 	req.Header.Set("Encoded-Body", encodedBody)
 	a.next.ServeHTTP(rw, req)
 }
