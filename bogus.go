@@ -70,14 +70,16 @@ func (a *Demo) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 		return
 	}
 	log.Printf("req.Body: %v", req.Body)
-	// 讀取 request body
+	// 讀取 request body 為字串
+
 	bodyBytes, err := ioutil.ReadAll(req.Body)
 	if err != nil {
 		http.Error(rw, err.Error(), http.StatusInternalServerError)
 		return
 	}
+
 	// 將 request body 轉換為 base64 字串
-	log.Printf("bodyBytes: %v", bodyBytes)
+	log.Printf("bodyBytes: %v", string(bodyBytes))
 	encodedBody := base64.StdEncoding.EncodeToString(bodyBytes)
 	log.Printf("encodedBody: %v", encodedBody)
 	req.Header.Set("Encoded-Body", encodedBody)
