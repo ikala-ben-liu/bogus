@@ -69,6 +69,7 @@ func (a *Demo) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 	if req.Body == nil {
 		return
 	}
+	log.Printf("req.Body: %v", req.Body)
 	// 讀取 request body
 	bodyBytes, err := ioutil.ReadAll(req.Body)
 	if err != nil {
