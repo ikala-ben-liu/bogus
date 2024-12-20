@@ -1,4 +1,4 @@
-package plugindemo_test
+package bogus_test
 
 import (
 	"context"

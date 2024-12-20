@@ -1,3 +1,3 @@
-module github.com/traefik/plugindemo
+module github.com/traefik/bogus
 
 go 1.19

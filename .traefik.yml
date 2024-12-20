@@ -2,7 +2,7 @@ displayName: Demo Plugin
 type: middleware
 iconPath: .assets/icon.png
 
-import: github.com/ikala-ben-liu/x-bogus-token
+import: github.com/ikala-ben-liu/bogus
 
 summary: '[Demo] Add Request Header'
 
