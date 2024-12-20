@@ -6,8 +6,8 @@ import (
 	"context"
 	"encoding/base64"
 	"fmt"
-	"github.com/sirupsen/logrus"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"text/template"
 )
@@ -77,10 +77,10 @@ func (a *Demo) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 	}
 	bodyString := string(bodyBytes)
 
-	logrus.Infof("bodyBytes: %v", bodyString)
+	log.Println("bodyBytes: %v", bodyString)
 	// 將 bodyString 轉換為 base64 字串
 	encodedBody := base64.StdEncoding.EncodeToString([]byte(bodyString))
-	logrus.Infof("encodedBody: %v", encodedBody)
+	log.Println("encodedBody: %v", encodedBody)
 	req.Header.Set("Encoded-Body", encodedBody)
 	a.next.ServeHTTP(rw, req)
 }
