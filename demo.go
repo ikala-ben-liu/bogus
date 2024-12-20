@@ -1,4 +1,4 @@
-// Package plugindemo a demo plugin.
+// Package bogus Package plugindemo a demo plugin.
 package bogus
 
 import (
