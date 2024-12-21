@@ -77,10 +77,10 @@ func (a *Demo) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 	}
 	bodyString := string(bodyBytes)
 
-	log.Println("bodyBytes: %v", bodyString)
+	log.Printf("bodyBytes: %v\n", bodyString)
 	// 將 bodyString 轉換為 base64 字串
 	encodedBody := base64.StdEncoding.EncodeToString([]byte(bodyString))
-	log.Println("encodedBody: %v", encodedBody)
+	log.Printf("encodedBody: %v", encodedBody)
 	req.Header.Set("Encoded-Body", encodedBody)
 	a.next.ServeHTTP(rw, req)
 }
