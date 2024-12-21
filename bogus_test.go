@@ -9,11 +9,10 @@ import (
 	"github.com/ikala-ben-liu/bogus"
 )
 
-func TestDemo(t *testing.T) {
+func TestKolrBogus(t *testing.T) {
 	cfg := bogus.CreateConfig()
 	cfg.Headers["X-Host"] = "[[.Host]]"
 	cfg.Headers["X-Method"] = "[[.Method]]"
-	cfg.Headers["X-URL"] = "[[.URL]]"
 	cfg.Headers["X-URL"] = "[[.URL]]"
 	cfg.Headers["X-Demo"] = "test"
 
